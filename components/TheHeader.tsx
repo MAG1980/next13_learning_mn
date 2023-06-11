@@ -5,7 +5,7 @@ const TheHeader = () => {
         <header>
             <nav>
                 <Link href="/">Home</Link>
-                <Link href="/Blog">Blog</Link>
+                <Link href="/blog">Blog</Link>
                 <Link href="/about">About</Link>
             </nav>
             <div>Изучение NexJS 13 по видео Михаила Непомнящего</div>
