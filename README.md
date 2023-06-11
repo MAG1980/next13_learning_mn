@@ -68,6 +68,20 @@ params:     { slug: ['a', 'b', 'c'] }
 
 Доступ к динамическим сегментам можно получить из useRouter.
 
+SEO
+Для SEO-оптимизации статических страниц сайта
+следует из файлов страниц (page.tsx) экспортировать объект metadata:Metadata:
+export const metadata: Metadata = {
+title: 'About us',
+description: 'Информация о нас'
+}
+
+Для SEO-оптимизации динамических страниц сайта
+следует из файлов страниц (page.tsx) экспортировать функцию generateMetadata,
+в которую в качестве параметров следует передать те же параметры,
+что и в основную функцию, возвращающую JSX.
+generateMetadata должна возвращать объект с полями title, description и другими метаданными.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped
 with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
