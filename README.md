@@ -1,7 +1,8 @@
 В проекте должен быть хотя бы один Layout.
 По умолчанию - это RootLayout, хранящийся в файле layout.tsx папки app.
 По умолчанию NextJS не добавляет тег <html></html> на каждую страницу. Это делает layout.
-В качестве параметра layout принимает компонент страницы (page.tsx)
+В качестве параметра layout принимает компонент страницы (page.tsx).
+Повторяющиеся компоненты (такие как header, footer, aside), следует размещать в layout.
 
 В корне папки app хранится файл глобальных стилей: global.css.
 В global.css удобно объявлять глобальные css-переменные.
@@ -21,7 +22,11 @@ export const metadata: Metadata = {
 title:"Current title",
 description: "Current description"
 }
-Увидеть все доступные свойства объекта metadata даёт тип Metadata.
+Возможность увидеть все доступные свойства объекта metadata даёт тип Metadata.
+
+Для навигации без перезгрузки страницы в NextJS присутствует компонент Link,
+который имеет атрибут href (а не to, как в React Router):
+<Link href="">
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped
 with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
