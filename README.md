@@ -180,6 +180,86 @@ error.tsx должен содержать директиву 'use client', а т
 
 На разных уровнях вложенности можно использовать разные loading.tsx и error.tsx.
 
+API эндпойнты
+Для создания API в NextJS требуется создать папку @/app/api.
+Если для создания страниц нужно в папках создавать файлы page.tsx,
+то для создания эндпойнтов API требуется создавать файлы route.tsx.
+Запрещается создавать в одной папке одновременно файлы page.tsx и route.tsx,
+т.к. это будет вызывать ошибки.
+Из названий директорий в пути к файлу route.jsx будет формироваться url эндпойнта API.
+
+Файлы route.tsx должны экспортировать асинхронные функции с именами,
+соответствующими HTTP-глаголам (методам) (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).
+export async function GET (request: Request){}
+При использовании неподдерживаемых методов NextJS вернёт ошибку 405 (Метод не поддерживается).
+
+https://github.com/michey85/next-blog-app/blob/api-points-basics/README.md
+Handlers API
+Для создания API-роутов внутри /app директории, как правило, создается вложенная директория /api со своими папками,
+внутри которых создается файл с названием route.ts.
+
+Если файл находит по пути /app/api/posts/, то адрес запроса будет /api/posts.
+
+Сам route.ts должен экспортировать объект с функциями по именам HTTP методов: GET, POST, DELETE и так далее.
+
+Функции должны возвращать результат работы метода json встроенного в NextJS класса NextResponse.
+Например:
+
+export async function GET(req: Request) {
+return NextResponse.json(currentPosts);
+}`
+
+Извлечение данных
+// получение квери параметров
+
+export async function GET(req: Request) {
+const { searchParams } = new URL(req.url);
+
+const query = searchParams.get("q");
+
+// some logic
+
+return NextResponse.json(currentPosts);
+}
+// получение тела запроса
+
+export async function POST(req: Request) {
+const body = await req.json();
+
+console.log(body);
+
+return NextResponse.json({ message: "done" });
+}
+// получение параметров URL
+
+export async function DELETE(
+req: Request,
+{ params }: { params: { id: string } }
+) {
+const id = params?.id;
+
+// some logic for delete post by id
+
+return NextResponse.json({ id });
+}
+Встроенные функции
+import { headers, cookies } from "next/headers";
+
+export async function GET(req: Request) {
+const headersList = headers();
+const cookiesList = cookies();
+
+const type = headersList.get("Content-Type");
+const Cookie_1 = cookiesList.get("Cookie_1")?.value;
+
+return NextResponse.json({});
+}
+import { redirect } from "next/navigation";
+
+export async function GET(request: Request) {
+redirect("https://nextjs.org/");
+}
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped
 with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
