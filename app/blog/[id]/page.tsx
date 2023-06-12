@@ -32,11 +32,17 @@ async function getData(id: string): Promise<IPost> {
         }
     })
 
+    if (!response.ok) {
+        throw new Error('Unable to fetch post')
+    }
+
     return response.json()
 }
 
 export default async function Posts({params: {id}}: Props) {
     const post = await getData(id)
+    //Срабатывает на сервере. Отображается в логах сервера, а не в браузере.
+    console.log(post)
     return (
         <div>
             <h1>Post page №{id}</h1>
