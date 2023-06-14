@@ -5,10 +5,11 @@ import {posts} from "@/app/api/posts/posts";
 export async function GET(request: Request) {
     // return NextResponse.json({message: 'hello'})
 
-    //Получение параметров запроса в серверном компоненте
+    //Плохой вариант получения параметров запроса в серверном компоненте
     const urlSearchParams = request.nextUrl.searchParams
     console.log(urlSearchParams.get("a"), urlSearchParams.get('b'))
 
+    //Рекомендованный документацией вариант получения параметров запроса в серверном компоненте
     const {searchParams} = new URL(request.url)
     const query = searchParams.get("a")
     console.log(query)
@@ -25,6 +26,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
     const body = await request.json()
+    console.log(body)
     if (body) {
         return NextResponse.json({status: "ok"})
     }
