@@ -279,6 +279,10 @@ https://ealebed.github.io/posts/2017/docker-работа-с-контейнера
 Postgres - моя предпочтительная база данных, и ее очень легко запустить локально с помощью docker. Просто запустите:
 docker run --rm --publish 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=databasename postgres
 
+
+sudo ss -lptn 'sport = :5432' // Определить PID процесса, занявшего порт
+kill <pid> // Завершить процесс с указанным PID
+
 Когда изображение запущено, вы можете подключиться через порт, 5432 используя имя пользователя postgres, без пароля.
 Убедитесь, что вы подключаетесь к базе данных, имя которой вы использовали выше, а не к базе данных по умолчанию.
 
@@ -348,6 +352,11 @@ import { prisma } from '@/lib/prisma'
 Использование клиента Prisma
 Вы можете использовать клиент Prisma в любом месте сервера.
 Вы часто будете использовать его в маршрутах API для изменения данных и в своих компонентах для извлечения данных.
+
+How to Develop a Full Stack Next.js, FastAPI, PostgreSQL App Using Docker
+https://www.travisluong.com/how-to-develop-a-full-stack-next-js-fastapi-postgresql-app-using-docker/
+
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped
 with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
