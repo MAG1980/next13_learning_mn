@@ -269,6 +269,86 @@ export async function GET(request: Request) {
 redirect("https://nextjs.org/");
 }
 
+Добавление Prisma и Postgres в проект
+https://ethanmick.com/how-to-set-up-prisma-with-next-js-postgres/
+
+Docker: работа с контейнерами
+https://ealebed.github.io/posts/2017/docker-работа-с-контейнерами/
+
+Запустите Postgres Container
+Postgres - моя предпочтительная база данных, и ее очень легко запустить локально с помощью docker. Просто запустите:
+docker run --rm --publish 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=databasename postgres
+
+Когда изображение запущено, вы можете подключиться через порт, 5432 используя имя пользователя postgres, без пароля.
+Убедитесь, что вы подключаетесь к базе данных, имя которой вы использовали выше, а не к базе данных по умолчанию.
+
+ВНИМАНИЕ: для POSTGRES_HOST_AUTH_METHOD установлено значение «доверять».
+Это позволит любому, у кого есть доступ к порту Postgres, получить доступ к вашей базе данных без пароля, даже если
+установлен POSTGRES_PASSWORD.
+См. документацию PostgreSQL о «доверии»: https://www.postgresql.org/docs/current/auth-trust.html
+В конфигурации Docker по умолчанию это фактически любой другой контейнер в той же системе.
+Не рекомендуется использовать POSTGRES_HOST_AUTH_METHOD=trust. Замените его на «-e POSTGRES_PASSWORD=password»,
+чтобы установить пароль в «docker run».
+****************************************************************************************
+Файлы, принадлежащие этой системе баз данных, будут принадлежать пользователю «postgres».
+Этот пользователь также должен владеть серверным процессом.
+Кластер базы данных будет инициализирован с локалью "en_US.utf8".
+Соответственно, кодировка базы данных по умолчанию была установлена на «UTF8».
+Конфигурация текстового поиска по умолчанию будет установлена на «english».
+Контрольные суммы страницы данных отключены.
+
+npm install prisma --save-dev
+npm i -D prisma
+npm i @prisma/client
+npx prisma init
+prisma generate //вводится в консоль дословно (без npm)
+
+1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet,
+   read https://pris.ly/d/getting-started
+2. Set the provider of the datasource block in schema.prisma to match your database: postgresql, mysql, sqlite,
+   sqlserver, mongodb or cockroachdb.
+3. Run prisma db pull to turn your database schema into a Prisma schema.
+4. Run prisma generate to generate the Prisma Client. You can then start querying your database.
+
+1. Установите DATABASE_URL в файле .env так, чтобы он указывал на вашу существующую базу данных. Если в вашей базе
+   данных еще нет таблиц, прочитайте https://pris.ly/d/getting-started.
+2. Установите поставщика блока источника данных в schema.prisma в соответствии с вашей базой данных: postgresql, mysql,
+   sqlite, sqlserver, mongodb или cockroachdb.
+3. Запустите prisma db pull, чтобы превратить вашу схему базы данных в схему Prisma.
+4. Запустите prisma generate, чтобы сгенерировать Prisma Client. Затем вы можете начать запрашивать вашу базу данных.
+
+Миграции
+prisma migrate dev
+или
+npx prisma migrate reset.
+
+Заполнение базы данных
+Если вы хотите заполнить базу данных, вам необходимо установить, ts-node который запустит для вас начальный скрипт.
+npm i -D ts-node
+Затем обновите свой package.json, чтобы включить новый ключ Prisma. Это будет на верхнем уровне с начальной командой в
+нем:
+"prisma": {
+"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+},
+
+Создание seeder (сценарий заполнения)
+Создайте новый файл, расположенный по адресу prisma/seed.ts.
+
+Чтобы выполнить "посев" БД, вы можете запустить:
+npx prisma db seed
+Заполнение также выполняется при запуске prisma migrate dev или npx prisma migrate reset.
+
+Использование клиента
+Создайте новый файл по адресу lib/prisma.ts. Если у вас нет папки lib, создайте ее.
+Этот файл не следует экспортировать в накопительный файл barrel (index.ts ), поскольку клиент Prisma нельзя использовать
+в браузере.
+Вместо этого импортируйте его как:
+import { prisma } from '@/lib/prisma'
+
+Использование клиента Prisma
+Вы можете использовать клиент Prisma в любом месте сервера.
+Вы часто будете использовать его в маршрутах API для изменения данных и в своих компонентах для извлечения данных.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped
 with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
